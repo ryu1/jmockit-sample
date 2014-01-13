@@ -3,6 +3,8 @@
  */
 package org.ryu1.jmockit.sample;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import mockit.Deencapsulation;
 import mockit.Expectations;
 import mockit.Mocked;
@@ -22,27 +24,18 @@ import org.junit.Test;
  */
 public class BusinesLogicTest {
     
-    /**
-     * TODO for ryu
-     * 
-     * @throws java.lang.Exception
-     * @since TODO
-     */
+    /***/
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
     }
     
-    /**
-     * TODO for ryu
-     * 
-     * @throws java.lang.Exception
-     * @since TODO
-     */
+    /***/
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
     }
     
     
+    // グローバルなモックオブジェクト
     @Mocked
     Stub stub;
     
@@ -51,12 +44,7 @@ public class BusinesLogicTest {
     User user = new User();
     
     
-    /**
-     * TODO for ryu
-     * 
-     * @throws java.lang.Exception
-     * @since TODO
-     */
+    /***/
     @Before
     public void setUp() throws Exception {
         // Deencapsulationは、名前の通りカプセル化を完全無視できます。
@@ -66,21 +54,14 @@ public class BusinesLogicTest {
         user.setName("James");
     }
     
-    /**
-     * TODO for ryu
-     * 
-     * @throws java.lang.Exception
-     * @since TODO
-     */
+    /***/
     @After
     public void tearDown() throws Exception {
     }
     
-    /**
-     * Test method for {@link org.ryu1.jmockit.sample.BusinesLogic#registUser(org.ryu1.jmockit.sample.User)}.
-     */
+    /***/
     @Test
-    public void testRegistUser() {
+    public void testRegistUser1() {
         
         // モックオブジェクトに対して期待動作を宣言
         new Expectations() {
@@ -94,4 +75,51 @@ public class BusinesLogicTest {
         logic.registUser(user);
     }
     
+    /***/
+    @Test
+    public void testRegistUser2() {
+        final BusinesLogic logic2 = new BusinesLogic();
+        final User user1 = new User();
+        user1.setId(1);
+        user1.setName("James");
+        // モックオブジェクトに対して期待動作を宣言
+        new Expectations() {
+            
+            // ローカルなモックオブジェクトとして宣言
+            Stub stub;
+            {
+                setField(logic2, "stub", stub);
+                stub.putUser(user1);
+                result = 501;
+            }
+        };
+        logic2.registUser(user1);
+    }
+    
+    /***/
+    @Test
+    public void testRegistUser3() {
+        
+        // モックオブジェクトに対して期待動作を宣言
+        new Expectations() {
+            
+            {
+                stub.putUser(user);
+                result = 200;
+                result = 404;
+                // 例外を投げる
+                result = new RuntimeException("test");
+            }
+        };
+        
+        logic.registUser(user);
+        logic.registUser(user);
+        try {
+            logic.registUser(user);
+            fail();
+        } catch (RuntimeException e) {
+            assertEquals("test", e.getMessage());
+        }
+        
+    }
 }
