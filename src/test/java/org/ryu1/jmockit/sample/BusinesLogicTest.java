@@ -61,23 +61,7 @@ public class BusinesLogicTest {
     
     /***/
     @Test
-    public void testRegistUser1() {
-        
-        // モックオブジェクトに対して期待動作を宣言
-        new Expectations() {
-            
-            {
-                stub.putUser(user);
-                result = 200;
-            }
-        };
-        
-        logic.registUser(user);
-    }
-    
-    /***/
-    @Test
-    public void testRegistUser2() {
+    public void testRegistUser_501エラーを発生させる() {
         final BusinesLogic logic2 = new BusinesLogic();
         final User user1 = new User();
         user1.setId(1);
@@ -98,7 +82,23 @@ public class BusinesLogicTest {
     
     /***/
     @Test
-    public void testRegistUser3() {
+    public void testRegistUser_ユーザーの登録に成功する() {
+        
+        // モックオブジェクトに対して期待動作を宣言
+        new Expectations() {
+            
+            {
+                stub.putUser(user);
+                result = 200;
+            }
+        };
+        
+        logic.registUser(user);
+    }
+    
+    /***/
+    @Test
+    public void testRegistUser_例外を発生させる() {
         
         // モックオブジェクトに対して期待動作を宣言
         new Expectations() {
