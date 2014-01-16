@@ -66,6 +66,7 @@ public class BusinesLogicTest {
         final User user1 = new User();
         user1.setId(1);
         user1.setName("James");
+        
         // モックオブジェクトに対して期待動作を宣言
         new Expectations() {
             
@@ -77,6 +78,7 @@ public class BusinesLogicTest {
                 result = 501;
             }
         };
+        
         logic2.registUser(user1);
     }
     

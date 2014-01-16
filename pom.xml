@@ -22,9 +22,16 @@
     <dependency>
       <groupId>com.googlecode.jmockit</groupId>
       <artifactId>jmockit</artifactId>
-      <version>1.5</version>
+      <version>${jmockit.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>com.googlecode.jmockit</groupId>
+      <artifactId>jmockit-coverage</artifactId>
+      <version>0.999.24</version>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -82,8 +89,21 @@
       <version>2.0.1</version>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+       <artifactId>maven-surefire-plugin</artifactId>
+       <configuration> 
+          <argLine>-Djmockit-coverage-outputDir=target/coverage-report</argLine> 
+        </configuration> 
+      </plugin>
+    </plugins>
+  </build>
+  
   <properties>
     <slf4j-version>1.6.1</slf4j-version>
     <logback-version>0.9.28</logback-version>
+    <jmockit.version>1.5</jmockit.version>
   </properties>
 </project>
